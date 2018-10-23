@@ -68,7 +68,7 @@ function styleEditBtn(button) {
 /** userEditTask - sets the property contentEditable for the given list element to true
  * @param liToEdit - the list element that we want to set the property of
  */
-function userEditTask(liToEdit) {
+function userEditTask(liToEdit) { 
     var pTag = liToEdit.target.parentElement.getElementsByTagName('p')[0];
     pTag.contentEditable = true;
 }
