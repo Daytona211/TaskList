@@ -20,6 +20,38 @@
     padding: 10px;
 }
 
+.textField{
+    display: inline; 
+}
+
+.divider{
+    display: inline;
+    color: #0645AD;  
+}
+
+.editButton, .clearButton{
+    height: 20px;
+    width: 45px;
+    background: none;
+    border: none;
+    color: #0645AD;
+}
+
+.taskList{
+    text-align: left;
+    background-clip: border-box;
+    border-width: 2px;
+    border-style: solid;
+    border-color: gray;
+    list-style: none;
+    background-color: #cad3b6;
+    height: 200px; 
+    overflow: auto;
+    width: 400px;
+    padding: 10px;
+    display: inline;
+}
+
 #li{
     white-space:nowrap;
 }

@@ -15,38 +15,33 @@ function getTextBox(textBoxID) {
 function addToList(itemToAdd, list, liCounter) {
     var listItem = document.createElement("li");
     listItem.id = "listItem" + liCounter;
-    //Set up the checkbox
+
     var checkBox = document.createElement("input");
     checkBox.setAttribute("type", "checkbox");
     checkBox.className = "checkBox";
     checkBox.id = checkBox.className + liCounter;
 
-    // Set up the text from the textbox (inside a <p> tag)
     para = document.createElement("p");
+    para.className = "textField";
     if (getTextBox("taskInput") == "") { // if the user tries to enter a blank task
         alert("A task can't be empty");
         return;
     } else {
         para.textContent = getTextBox("taskInput");
     }
-    para.style.display = "inline";
-    para.className = "textField";
-    // setup edit button
+
     var editBtn = document.createElement("button");
     var clearBtn = document.createElement("button");
     editBtn.className = "editButton";
-    // create a divider between the two buttons
+    editBtn.textContent = "Edit";
+    
     divider = document.createElement("p");
+    divider.className = "divider";
     divider.textContent = "|";
-    divider.style.display = "inline";
-    divider.style.color = "#0645AD";
 
-    // setup the clear button
     clearBtn.className = "clearButton";
-    styleEditBtn(editBtn);
-    styleEditBtn(clearBtn);
     clearBtn.textContent = "Clear";
-    // add all the items to the LI then add the LI to the UL
+   
     listItem.appendChild(checkBox);
     listItem.appendChild(para);
     listItem.appendChild(editBtn);
@@ -55,20 +50,11 @@ function addToList(itemToAdd, list, liCounter) {
     list.appendChild(listItem);
 }
 
-/** styleEditBtn takes in a reference to the button object we want to style then sets the properties for the button's style
- * @param button -  reference to the button object that we want style */
-function styleEditBtn(button) {
-    button.style.height = "15px";
-    button.style.width = "40px";
-    button.style.background = "none";
-    button.style.border = "none";
-    button.textContent = "Edit"
-    button.style.color = "#0645AD"
-}
+
 /** userEditTask - sets the property contentEditable for the given list element to true
  * @param liToEdit - the list element that we want to set the property of
  */
-function userEditTask(liToEdit) { 
+function userEditTask(liToEdit) {
     var pTag = liToEdit.target.parentElement.getElementsByTagName('p')[0];
     pTag.contentEditable = true;
 }
@@ -115,42 +101,39 @@ function main() {
         }
     });
 
-    // if the addTaskBtn is clicked 
     document.getElementById("addTaskBtn").addEventListener("click", function () {
         addToList(getTextBox("taskInput"), ulTaskList, liCounter);
         liCounter++;
     });
 
-    // if the add taskbtn is hit with the enter key
     document.getElementById("addTaskBtn").addEventListener("keydown", function (e) {
         if (e.keycode == 13) { // 13 = enterkey
             addToList(getTextBox("taskInput"), ulTaskList, liCounter);
             liCounter++;
         }
     });
-    //if the enter key is pressed down
-    document.addEventListener("keydown", function (e) { 
+    
+    document.addEventListener("keydown", function (e) {
         if (e.keyCode == 13) {
             disableAllEditable();
         }
     });
 
-    // if there is a chan with the checkboxes
     document.addEventListener("change", function (e) {
         if (e.target && e.target.className == "checkBox") {
             strikeThrough(e.target);
         }
     });
-    // if there is a click on the screen
+    
     document.addEventListener("click", function (e) {
-        if (e.target && e.target.className == "editButton") { // click on an edit button
+        if (e.target && e.target.className == "editButton") {  
             userEditTask(e);
-        } else if (e.target && e.target.className == "clearButton") { //click on a clear button
+        } else if (e.target && e.target.className == "clearButton") {  
             clearTask(e);
-        } else if (e.target && e.target.className != "textField") { // click on something other than a textField
+        } else if (e.target && e.target.className != "textField") { 
             disableAllEditable();
         }
     });
 }
 
-main(); // call the main
+main(); 
