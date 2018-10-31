@@ -34,14 +34,14 @@ function addToList(itemToAdd, list, liCounter) {
     var clearBtn = document.createElement("button");
     editBtn.className = "editButton";
     editBtn.textContent = "Edit";
-    
+
     divider = document.createElement("p");
     divider.className = "divider";
     divider.textContent = "|";
 
     clearBtn.className = "clearButton";
     clearBtn.textContent = "Clear";
-   
+
     listItem.appendChild(checkBox);
     listItem.appendChild(para);
     listItem.appendChild(editBtn);
@@ -112,7 +112,7 @@ function main() {
             liCounter++;
         }
     });
-    
+
     document.addEventListener("keydown", function (e) {
         if (e.keyCode == 13) {
             disableAllEditable();
@@ -124,16 +124,16 @@ function main() {
             strikeThrough(e.target);
         }
     });
-    
+
     document.addEventListener("click", function (e) {
-        if (e.target && e.target.className == "editButton") {  
+        if (e.target && e.target.className == "editButton") {
             userEditTask(e);
-        } else if (e.target && e.target.className == "clearButton") {  
+        } else if (e.target && e.target.className == "clearButton") {
             clearTask(e);
-        } else if (e.target && e.target.className != "textField") { 
+        } else if (e.target && e.target.className != "textField") {
             disableAllEditable();
         }
     });
 }
 
-main(); 
+main();
