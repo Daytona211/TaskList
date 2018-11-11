@@ -74,9 +74,9 @@ function clearTask(event) {
 function strikeThrough(checkBox) {
     var para = checkBox.parentElement.getElementsByTagName('p')[0];
     if (para.style.textDecoration == "line-through")
-        para.style.textDecoration = "none"; // remove the line-through
+        para.style.textDecoration = "none"; 
     else
-        para.style.textDecoration = "line-through"; // set the line-through
+        para.style.textDecoration = "line-through"; 
 }
 /** disableAllEditable disables the contentEditable property for all li's in the tasklist
  */
