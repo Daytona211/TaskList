@@ -4,7 +4,8 @@
  * @return returns the value of the textBox object with the matching ID
  */
 function getTextBox(textBoxID) {
-    return document.getElementById(textBoxID).value
+
+   // return document.getElementById(textBoxID).value;
 }
 
 /** addToList- reads the input in the textbox and adds it as an LI to the to do list
@@ -13,41 +14,46 @@ function getTextBox(textBoxID) {
  * @param liCounter - a counter keeping track of how many elements are in the list for the ID's
  */
 function addToList(itemToAdd, list, liCounter) {
-    var listItem = document.createElement("li");
-    listItem.id = "listItem" + liCounter;
-
-    var checkBox = document.createElement("input");
-    checkBox.setAttribute("type", "checkbox");
-    checkBox.className = "checkBox";
-    checkBox.id = checkBox.className + liCounter;
-
-    para = document.createElement("p");
-    para.className = "textField";
+    var li = $("<li></li>")
+    li.attr("id", "listItem" + liCounter);
+    // var listItem = document.createElement("li");
+    // listItem.id = "listItem" + liCounter;
+    // var checkBox = $("input").attr("type", "checkbox");
+    // checkBox.attr("class", "checkBox");
+    // checkBox.attr("id", "checkBox" + liCounter);
+    var checkBox = $("<input></input>").attr({
+        type:"checkbox",
+        class: "checkBox",
+        id: "checkbox" + liCounter
+    });
+    var para = $("<p></p>").attr("class", "textField");
     if (getTextBox("taskInput") == "") { // if the user tries to enter a blank task
         alert("A task can't be empty");
         return;
     } else {
-        para.textContent = getTextBox("taskInput");
+        var r = $("#taskInput");
+        para.append(r[0].value);
     }
-
-    var editBtn = document.createElement("button");
-    var clearBtn = document.createElement("button");
-    editBtn.className = "editButton";
-    editBtn.textContent = "Edit";
-
-    divider = document.createElement("p");
-    divider.className = "divider";
-    divider.textContent = "|";
-
-    clearBtn.className = "clearButton";
-    clearBtn.textContent = "Clear";
-
-    listItem.appendChild(checkBox);
-    listItem.appendChild(para);
-    listItem.appendChild(editBtn);
-    listItem.appendChild(divider);
-    listItem.appendChild(clearBtn);
-    list.appendChild(listItem);
+    
+    var editBtn = $("<button/>").attr({
+        class: "editButton",
+    });
+    editBtn.html("Edit");
+    var clearBtn = $("<button/>").attr({
+        class: "clearButton",
+    });
+    clearBtn.html("Clear");
+    var divider = $("<p></p>").attr({
+        class: "divider",
+    });
+    divider.html("|");
+    // add to ul
+    li.append(checkBox[0]);
+    li.append(para[0]);
+    li.append(editBtn[0]);
+    li.append(divider[0]);
+    li.append(clearBtn);
+    list.append(li[0]);
 }
 
 
@@ -72,6 +78,7 @@ function clearTask(event) {
  * @param checkBox - The checkbox that was checked to trigger the event
  */
 function strikeThrough(checkBox) {
+    
     var para = checkBox.parentElement.getElementsByTagName('p')[0];
     if (para.style.textDecoration == "line-through")
         para.style.textDecoration = "none"; 
@@ -81,7 +88,7 @@ function strikeThrough(checkBox) {
 /** disableAllEditable disables the contentEditable property for all li's in the tasklist
  */
 function disableAllEditable() {
-    var editable = document.getElementsByClassName("textField");
+    var editable = $(".textField");
     for (var i = 0; i < editable.length; i++) { // disable all editable elements in the taskList
         editable[i].contentEditable = false;
     }
@@ -90,14 +97,14 @@ function disableAllEditable() {
  */
 function main() {
     var liCounter = 0;
-    var checkBoxes = document.getElementsByClassName("checkBox"); // list of checkboxes
-    var ulTaskList = document.getElementById("taskList"); // lis of tasks 
-
+    var checkBoxes = $(".checkBox"); // list of checkboxes
+    var ulTaskList = $("#taskList"); // lis of tasks 
+    ulTaskList = ulTaskList[0];
     $("#taskInput").on("keydown", function (e) { // if the user hits enter while editing the task
         if (e.keyCode == 13) {
             addToList(getTextBox("taskInput"), ulTaskList, liCounter);
             liCounter++;
-            document.getElementById("taskInput").value = ""; // clear the input field
+            $("#taskInput").val(""); // clear the input field
         }
     });
 
@@ -119,12 +126,18 @@ function main() {
         }
     });
 
-    $("*").on("click", function(e){
-        if(e.target && e.target.className == "checkBox")
+    $(this).on("click", function(e){
+        if(e.target && e.target.className == "checkBox"){
             strikeThrough(e.target);
+        }
+    });
+ 
+    $(this).on("keydown", function(e){ // if enter is hit disable all editing
+        if(e.keyCode == 13)
+            disableAllEditable();
     });
 
-    $("*").on("click", function (e) {
+    $(this).on("click", function (e) {
         if (e.target && e.target.className == "editButton") {
             userEditTask(e);
         } else if (e.target && e.target.className == "clearButton") {
@@ -134,4 +147,6 @@ function main() {
         }
     });
 }
-main();
+$( document ).ready(function() {
+    main();
+});
