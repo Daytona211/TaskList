@@ -1,19 +1,11 @@
 // Name: Zachary Norcross Subject: Jahnel Group JS1 Project 
-/** getTextBox- takes in the if of a textBox object and returns the text within the box
- * @param textBoxid- The id of the textbo which e want to get the content from
- * @return returns the value of the textBox object with the matching ID
- */
-function getTextBox(textBoxID) {
-
-   // return document.getElementById(textBoxID).value;
-}
 
 /** addToList- reads the input in the textbox and adds it as an LI to the to do list
  * @param itemToAdd - The etxt to add to the todo list
  * @param list - a reference to the UL list object
  * @param liCounter - a counter keeping track of how many elements are in the list for the ID's
  */
-function addToList(itemToAdd, list, liCounter) {
+function addToList(list, liCounter) {
     var li = $("<li></li>")
     li.attr("id", "listItem" + liCounter);
     // var listItem = document.createElement("li");
@@ -27,13 +19,14 @@ function addToList(itemToAdd, list, liCounter) {
         id: "checkbox" + liCounter
     });
     var para = $("<p></p>").attr("class", "textField");
-    if (getTextBox("taskInput") == "") { // if the user tries to enter a blank task
-        alert("A task can't be empty");
+
+    var r = $("#taskInput");
+    if(r[0].value == ""){
+        alert("Can't have an empty task");
         return;
-    } else {
-        var r = $("#taskInput");
-        para.append(r[0].value);
     }
+    para.append(r[0].value);
+    
     
     var editBtn = $("<button/>").attr({
         class: "editButton",
@@ -102,20 +95,20 @@ function main() {
     ulTaskList = ulTaskList[0];
     $("#taskInput").on("keydown", function (e) { // if the user hits enter while editing the task
         if (e.keyCode == 13) {
-            addToList(getTextBox("taskInput"), ulTaskList, liCounter);
+            addToList(ulTaskList, liCounter);
             liCounter++;
             $("#taskInput").val(""); // clear the input field
         }
     });
 
     $("#addTaskBtn").on("click", function (){
-        addToList(getTextBox("taskInput"), ulTaskList, liCounter);
+        addToList(ulTaskList, liCounter);
         liCounter++;
     });
 
     $("#addTaskBtn").on("keydown", function (e){
         if(e.keyCode == 13){
-            addToList(getTextBox("taskInput"), ulTaskList, liCounter);
+            addToList(ulTaskList, liCounter);
             liCounter++;
         }
     });
@@ -147,6 +140,4 @@ function main() {
         }
     });
 }
-$( document ).ready(function() {
     main();
-});
