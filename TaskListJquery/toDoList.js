@@ -86,6 +86,17 @@ function disableAllEditable() {
         editable[i].contentEditable = false;
     }
 }
+
+function clearAllCompletedTasks(){
+    var membersOfList = $("#taskList").children();
+    console.log(membersOfList);
+    for(var i = 0; i < membersOfList.length; i++){
+        if(membersOfList[i].children[0].checked){
+            membersOfList[i].remove();
+        }
+    }
+    
+}
 /** main - the main diver of the program. Handles ll function calls and general flow of the program.
  */
 function main() {
@@ -111,6 +122,10 @@ function main() {
             addToList(ulTaskList, liCounter);
             liCounter++;
         }
+    });
+
+    $("#clearAllCompletedTasksBtn").on("click", function(e){
+        clearAllCompletedTasks();
     });
 
     $("#addTaskBtn").on("keydown", function (e){
